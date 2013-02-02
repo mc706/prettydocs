@@ -8,6 +8,7 @@ class Content(models.Model):
         ('ul','List(unordered)'),
         ('ol','List(ordered)'),
         ('li','List item'),
+        ('div','Divider'),
         ('p','Paragraph'),
         ('pre','Code Block'),
         ('h5','Header'),
@@ -17,10 +18,10 @@ class Content(models.Model):
         ('txt','text'),
     ),default='p',max_length=10)
     content = models.TextField(blank=True, null=True)
-    children = models.ManyToManyField("self", symmetrical=False, blank=True, null=True)
+    children = models.ManyToManyField("self", symmetrical=False, blank=True, null=True, related_name='child')
 
     def __unicode__(self):
-        return self.section_set.all()[0].get_full_title()
+        return str(self.id)
 
     class Meta:
         verbose_name = 'content'
@@ -37,7 +38,7 @@ class Section(models.Model):
         ('sub','SubChapter'),
         ('rev','Revision History'),
         ('bib','Bibliography'),
-    ))
+    ),max_length=5)
     index = models.IntegerField(default=1)
     subsections = models.ManyToManyField("self", symmetrical=False, blank=True, null=True)
     content = models.ManyToManyField(Content, blank=True, null=True)

@@ -1,4 +1,4 @@
-# Django settings for prettydocs2 project.
+# Django settings for prettydocs project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'document',
 )
 
 # A sample logging configuration. The only tangible logging
