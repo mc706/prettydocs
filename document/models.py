@@ -38,7 +38,7 @@ class Section(models.Model):
         ('sub','SubChapter'),
         ('rev','Revision History'),
         ('bib','Bibliography'),
-    ),max_length=5)
+    ),max_length=5, blank=True, null=True)
     index = models.IntegerField(default=1)
     subsections = models.ManyToManyField("self", symmetrical=False, blank=True, null=True)
     content = models.ManyToManyField(Content, blank=True, null=True)
@@ -52,6 +52,14 @@ class Section(models.Model):
         else:
             return False
 
+    def get_next_index(self):
+        parent = self.get_parent()
+        index = parent.subsections.all().count()
+        return index + 1
+
+    def get_next_child(self):
+        return  self.subsections.all().count() + 1
+
     def get_number(self):
         '''Gets Section Number'''
         section_tree = [self.index]
@@ -61,8 +69,9 @@ class Section(models.Model):
                 section_tree.append(parent.index)
                 climb_tree(parent)
             else:
-                return ".".join(section_tree.reverse())
+                return True
         climb_tree(self)
+        return ".".join([str(s) for s in reversed(section_tree)])
 
     def get_full_title(self):
         '''gets section title'''
@@ -70,7 +79,7 @@ class Section(models.Model):
 
     def get_html_title(self):
         header_size = self.get_number().count('.') + 2
-        return "<h{0}>{1}</h{0}>".format(header_size, self.get_full_title())
+        return "<h{0} id={2}>{1}</h{0}>".format(header_size, self.get_full_title(),self.get_number())
 
     def __unicode__(self):
         return self.title
@@ -92,12 +101,12 @@ class DocumentType(models.Model):
         verbose_name = 'type'
         verbose_name_plural = 'types'
 
-
-class DocumentHistory(models.Model):
-    '''Revision History of Document'''
+class Audit(models.Model):
+    '''change history for everything'''
     changed_by = models.ForeignKey(User)
     changed_date = models.DateTimeField(auto_now=True)
-    reason_changed = models.TextField()
+    reason_changed = models.TextField(blank=True, null=True)
+
 
 
 class DocumentTags(models.Model):
@@ -125,6 +134,25 @@ class Document(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_next_section_index(self):
+        return self.sections.all().count() + 1
+
     class Meta:
         verbose_name = 'document'
         verbose_name_plural = 'documents'
+
+
+class DocumentHistory(models.Model):
+    '''Revision History of Document'''
+    audit = models.ForeignKey(Audit)
+    document = models.ManyToManyField(Document, blank=True, null=True)
+
+class SectionHistory(models.Model):
+    '''Revision History of Document'''
+    audit = models.ForeignKey(Audit)
+    section = models.ManyToManyField(Section, blank=True, null=True)
+
+class ContentHistory(models.Model):
+    '''Revision History of Document'''
+    audit = models.ForeignKey(Audit)
+    content = models.ManyToManyField(Content, blank=True, null=True)

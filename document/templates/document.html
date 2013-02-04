@@ -1,41 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel=stylesheet href="bootstrap.css">
-    <link rel=stylesheet href="prettify.css">
+    <link href="/static/css/bootstrap.css" type="text/css" rel=stylesheet>
+    <link href="/static/css/prettify.css" type="text/css" rel=stylesheet>
     <title>{{ document.title }}</title>
 </head>
 <body>
     <div class=container>
-        <h1>{{ document.title}}</h1>
+        {{ doc_html|safe }}
     </div>
-    {%  for section in document.sections.all %}
-        <div class=page-header id="{{ section.title }}">
-           {{ section.get_html_title|safe }}
-        </div>
-        {% for content in section.content.all %}
-            {% if content.content_type == 'p' %}
-                <p>
-                    {% for subcontent in content.children.all %}
-                        {{ subcontent.content }}
-                    {% endfor %}
-                </p>
-            {% endif %}
-            {% if content.content_type == 'ul' %}
-                <ul>
-                    {% for subcontent in content.children.all %}
-                        <li>{{ subcontent.content }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if content.content_type == 'ol' %}
-                <ol>
-                    {% for subcontent in content.children.all %}
-                        <li>{{ subcontent.content }}</li>
-                    {% endfor %}
-                </ol>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
 </body>
 </html>

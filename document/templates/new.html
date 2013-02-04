@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+
+<div class=page-header>
+    <h1>
+        {{ title }}
+    </h1>
+</div>
+
+    {{ form.as_p }}
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

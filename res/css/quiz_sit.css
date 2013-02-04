@@ -1,0 +1,11 @@
+label input, label textarea, label select {
+  display: inline-block !important;
+}
+
+input[type="image"], input[type="checkbox"], input[type="radio"] {
+  vertical-align: bottom;
+}
+
+p > label {
+  font-weight: bold;
+}
