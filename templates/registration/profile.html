@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+
+{%block title%}Change Password{%endblock%}
+
+{%block content%}
+
+  <div class=well style="text-align:center">
+    <div><strong>Welcome back</strong>, {{user.first_name}}.</div>
+    <div>You last logged in {{user.last_login|date:"N j, Y"}} at {{user.last_login|date:"h:i a"}}</div>
+  </div>
+
+{%endblock%}

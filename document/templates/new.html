@@ -9,8 +9,11 @@
         {{ title }}
     </h1>
 </div>
-
+<form action="{% url document.views.create_document %}" method=post>
+    {% csrf_token %}
     {{ form.as_p }}
+    <input type="submit" class="btn btn-large btn-primary" value="Create Document">
+</form>
 
 {% endblock content %}
 

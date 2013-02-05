@@ -1,0 +1,40 @@
+{%extends "base.html"%}
+
+{%block title%}Log In{%endblock%}
+
+{%block content%}
+
+  <div class="page-header">
+    <h1>
+      Log In
+    </h1>
+  </div>
+
+  {%if next%}
+    <div class="alert alert-warning" style="text-align:center">
+      You must <strong>log in</strong> to continue to that page.
+    </div>
+  {%endif%}
+  {%if form.errors%}
+    <div class="alert alert-error" style="text-align:center">
+      Your username and password <strong>didn't match</strong>. Please try again.
+    </div>
+  {%endif%}
+
+  <form method="post" action="{%url auth.views.login_wrapper%}">
+  {%csrf_token%}
+  <div>
+    {{form.username.label_tag}}
+    {{form.username}}
+  </div>
+  <div>
+    {{form.password.label_tag}}
+    {{form.password}}
+    <p><small><a href="{%url django.contrib.auth.views.password_reset%}">Forgot your password?</a></small></p>
+  </div>
+
+  <input type="hidden" name="next" value="{{next}}" />
+  <input class="btn btn-primary btn-large" type="submit" value="Log In" />
+  </form>
+
+{%endblock%}
