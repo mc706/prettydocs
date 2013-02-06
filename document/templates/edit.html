@@ -24,9 +24,43 @@
             <ul class="nav nav-tabs nav-stacked">
                 {% for section in document.sections.all %}
                     <li><a>{{ section.get_full_title }}</a></li>
+                    <ul class="nav nav-tabs nav-stacked" style="margin-left:10px">
+                        {% for subsection in section.subsections.all %}
+                           <li><a>{{ subsection.get_full_title }}</a></li>     
+                        {% endfor %}
+                        <li><a data-type="new_section" data-parent="{{ section.id }}"><i class=icon-plus></i> Add Section</a></li>
+                    </ul>
+                    
                 {% endfor %}
-                   <li><a data-type='new_section' data-parent=none><i class=icon-plus></i> Add Section </a></li>
+                   <li><a data-type='new_section' data-parent=none onclick="$('#add_section_modal').modal()"><i class=icon-plus></i> Add Section </a></li>
             </ul>
+    </div>
+</div>
+
+<div id=add_section_modal class="modal hide">
+    <div class=modal-header>
+        <button type=button class=close data-dismiss=modal onclick="$('#add_section_modal').modal('ide);"><i class=icon-remove></i></button>
+        <h3>Add Section</h3>
+    </div>
+    <div class=modal-body>
+        <div id=m_add_section_form class=controls>
+            <div class=controls-row>
+                <label for="m_section_parent">Parent</label>
+                <select id=m_section_parent name=m_section_parent>
+                    <option>No Parent</option>
+                    {% for section in document.get_section_list %}
+                        <option value={{ section.id }}>{{ section.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class=controls-row>
+                <label for="m_section_title">Title</label>
+                <input id=m_section_title name=m_section_title type=text>
+            </div>
+        </div>
+    </div>
+    <div class=modal-footer>
+        <button class='btn btn-primary' onclick="submit_add_section()">Submit</button>
     </div>
 </div>
 

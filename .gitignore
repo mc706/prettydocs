@@ -2,4 +2,7 @@
 *.pot
 *.pyc
 local_settings.py
+*/settings.py
 .idea/
+settings.py
+prettydocs/settings.py

@@ -23,7 +23,7 @@ def document(request, document_id):
     {
         'document':document,
         'doc_html':doc_html,
-    })
+    },RequestContext(request))
 
 
 def create_document(request):

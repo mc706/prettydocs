@@ -130,6 +130,23 @@ class Document(models.Model):
     tags = models.ManyToManyField(DocumentTags, blank=True, null=True)
     creator = models.ForeignKey(User)
     sections = models.ManyToManyField(Section, blank=True, null=True)
+    
+    def get_section_list(self):
+        sections = []
+        def list_children(section):
+            children = []
+            if section.subsections.all().count() > 0:
+                children.append(section.get_full_title)
+            else:
+                children.append(section.get_full_title)
+                for subsection in section.subsections.all():
+                    children += list_children(subsection)
+            return children
+        for section in self.sections:
+            sections.append(section.get_full_title)
+            sections += list_children(section)
+        return sections
+                
 
     def __unicode__(self):
         return self.title
