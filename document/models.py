@@ -135,15 +135,14 @@ class Document(models.Model):
         sections = []
         def list_children(section):
             children = []
-            if section.subsections.all().count() > 0:
-                children.append(section.get_full_title)
+            if section.subsections.all().count() == 0:
+                children.append(str(section.get_full_title()))
             else:
-                children.append(section.get_full_title)
                 for subsection in section.subsections.all():
                     children += list_children(subsection)
             return children
-        for section in self.sections:
-            sections.append(section.get_full_title)
+        for section in self.sections.all():
+            sections.append(str(section.get_full_title()))
             sections += list_children(section)
         return sections
                 
