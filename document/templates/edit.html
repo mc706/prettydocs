@@ -23,20 +23,40 @@
         </div>
             <ul class="nav nav-tabs nav-stacked" style="margin:0 0 0 10px">
                 {% for section in document.sections.all %}
-                    <li><a>{{ section.get_full_title }}</a></li>
+                    <li>
+                        <a parent-id="{{ section.id }}" parent-type="section" onclick="call_content_modal(this)">
+                            {{ section.get_full_title }}
+                            <div class=pull-right>
+                                <i class=icon-plus></i>Content
+                            </div>
+                        </a>
+                    </li>
                     <ul class="nav nav-tabs nav-stacked" style="margin:0 0 0 10px">
                         {% for subsection in section.subsections.all %}
-                           <li><a>{{ subsection.get_full_title }}</a></li>
+                           <li>
+                               <a parent-id="{{ subsection.id }}" parent-type="section"  onclick="call_content_modal(this)">
+                                   {{ subsection.get_full_title }}
+                                   <div class=pull-right>
+                                       <i class=icon-plus></i>Content
+                                   </div>
+                               </a>
+                           </li>
                             <ul class="nav nav-tabs nav-stacked" style="margin:0 0 0 10px">
                             {% for supersub in subsection.subsections.all %}
-                                <li><a>{{ supersub.get_full_title }}</a></li>
+                                <li>
+                                    <a  parent-id="{{ supersub.id }}" parent-type="section" onclick="call_content_modal(this)">
+                                        {{ supersub.get_full_title }}
+                                        <div class=pull-right>
+                                            <i class=icon-plus></i>Content
+                                        </div>
+                                    </a>
+                                </li>
                             {% endfor %}
                             </ul>
                         {% endfor %}
                     </ul>
                 {% endfor %}
                    <li><a data-type='new_section' onclick="$('#add_section_modal').modal()"><i class=icon-plus></i> Add Section </a></li>
-                   <li><a data-type='new_content'  onclick="$('#add_content_modal').modal()"><i class=icon-plus></i> Add Content </a></li>
             </ul>
     </div>
 </div>
@@ -75,22 +95,24 @@
     <div class=modal-body>
         <div id=m_add_content_form class=controls>
             <div class=controls-row>
-                <label for="m_content_parent">Parent</label>
-                <select id=m_content_parent name=m_section_parent>
-                    <option value='none'>Document</option>
-                    {% for section in document.get_section_list %}
-                        <option value={{ section.0 }}>{{ section.1 }}</option>
-                    {% endfor %}
+                <label for="m_content_type">Content Type</label>
+                <select id=m_content_type>
+                    <option>Choose Type</option>
+                    <option value="ul">Unordered List</option>
+                    <option value="ol">Ordered List</option>
+                    <option value="p">Paragraph</option>
+                    <!--<option value="dl">Definiton List</option>
+                    <option value="cb">Code Block</option>-->
+                    <option value="raw">Raw HTML</option>
                 </select>
             </div>
-            <div class=controls-row>
-                <label for="m_section_title">Title</label>
-                <input id=m_section_title name=m_section_title type=text>
-            </div>
+        <div class=controls-row id="extra_form">
+
+        </div>
         </div>
     </div>
     <div class=modal-footer>
-        <button class='btn btn-primary' onclick="submit_add_section()">Submit</button>
+        <button class='btn btn-primary' onclick="submit_add_content()">Submit</button>
     </div>
 </div>
 
@@ -98,6 +120,65 @@
 
 {% block script %}
 <script>
+
+var cparent = "";
+var cparent_type = "";
+function call_content_modal(el){
+    cparent = $(el).attr('parent-id');
+    cparent_type = $(el).attr('parent-type');
+    $('#add_content_modal').modal();
+}
+
+$('#m_content_type').change(function(){
+    sel = $(this).val();
+    $('#m_content_type').attr('disabled','true');
+    if (sel=='ul'){
+
+        $('#extra_form').append("\
+                <div class=controls=row>\
+                    <label>Add Items to List</label>\
+                <input type=text id=ul_new_item><a onclick=\"$('#sample_ul').append('<li>'+$('#ul_new_item').val()+'</li>');$('#ul_new_item').val('');\"> <i class=icon-plus></i></a>\
+                </ul>\
+                </div>\
+        ");
+    } else if (sel=='ol'){
+        $('#extra_form').append("\
+                <div class=controls=row>\
+                    <label>Add Items to Ordered List</label>\
+                <input type=text id=li_new_item><a onclick=\"$('#sample_ol').append('<li>'+$('#li_new_item').val()+'</li>');$('#li_new_item').val('');\"> <i class=icon-plus></i></a>\
+                <ol id=sample_ol>\
+                </ol>\
+                </div>\
+        ");
+    } else if (sel=='p'){
+        $('#extra_form').append("\
+                <div class=controls=row>\
+                    <label>Write Paragraph</label>\
+                <textarea id=p_text></textarea>\
+                </div>\
+        ");
+    } else if (sel=='dl'){
+
+    } else if (sel=='cb'){
+
+    } else if (sel=='raw'){
+        $('#extra_form').append("\
+                <div class=controls=row>\
+                    <label>Write Raw HTML</label>\
+                <textarea id=p_text></textarea>\
+                </div>\
+        ");
+    }
+});
+
+function submit_add_content(){
+    var parent_id = cparent;
+    var parent= cparent_type;
+    var type = 'new_content';
+    var content_type = $('#m_content_type').val();
+
+}
+
 function submit_add_section() {
     var parent = $('#m_section_parent').val();
     var title = $('#m_section_title').val();

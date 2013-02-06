@@ -91,13 +91,14 @@ def edit_document(request, document_id):
                 return HttpResponse(status=200)
             elif post['parent'] == 'section':
                 parent = Section.objects.get(pk=post['parent_id'])
-                new_content = Content.objects.create(
-                    content_type = post['content_type'],
-                    content = post['content'],
-                )
-                new_content.save()
-                parent.children.add(new_content)
-                parent.save()
+                if post['content_type'] == 'ul':
+                    pass
+                elif post['content_type'] == 'ol':
+                    pass
+                elif post['content_type'] == 'p':
+                    pass
+                elif post['content_type'] == 'raw':
+                    pass
                 return HttpResponse(status=200)
     else:
         return render_to_response('edit.html',
