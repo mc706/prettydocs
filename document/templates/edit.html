@@ -28,11 +28,11 @@
                         {% for subsection in section.subsections.all %}
                            <li><a>{{ subsection.get_full_title }}</a></li>     
                         {% endfor %}
-                        <li><a data-type="new_section" data-parent="{{ section.id }}"><i class=icon-plus></i> Add Section</a></li>
                     </ul>
                     
                 {% endfor %}
-                   <li><a data-type='new_section' data-parent=none onclick="$('#add_section_modal').modal()"><i class=icon-plus></i> Add Section </a></li>
+                   <li><a data-type='new_section' onclick="$('#add_section_modal').modal()"><i class=icon-plus></i> Add Section </a></li>
+                   <li><a data-type='new_content'  onclick="$('#add_content_modal').modal()"><i class=icon-plus></i> Add Content </a></li>
             </ul>
     </div>
 </div>
@@ -47,9 +47,9 @@
             <div class=controls-row>
                 <label for="m_section_parent">Parent</label>
                 <select id=m_section_parent name=m_section_parent>
-                    <option>No Parent</option>
+                    <option value='none'>Document</option>
                     {% for section in document.get_section_list %}
-                        <option value={{ section.id }}>{{ section.display }}</option>
+                        <option value={{ section.0 }}>{{ section.1 }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -68,9 +68,24 @@
 
 {% block script %}
 <script>
-function(element){
-    var type = $(element).attr('data-type');
-    var parent = $(element).attr('data-parent');
+function submit_add_section() {
+    var parent = $('#m_section_parent').val();
+    var title = $('#m_section_title').val();
+    var type = 'new_section';
+    $.ajax({
+        type:'post',
+        url:'{% url document.views.edit_document document.id %}',
+        data:{
+            'type':type,
+            'parent':parent,
+            'parent_id':parent,
+            'title':title
+        },
+        success:function(){
+            window.location.reload();
+        }
+
+    })
 }
 </script>
 {% endblock script %}

@@ -136,15 +136,15 @@ class Document(models.Model):
         def list_children(section):
             children = []
             if section.subsections.all().count() == 0:
-                children.append(str(section.get_full_title()))
+                children.append((section.id,str(section.get_full_title())))
             else:
+                children.append((section.id,str(section.get_full_title())))
                 for subsection in section.subsections.all():
                     children += list_children(subsection)
             return children
         for section in self.sections.all():
-            sections.append(str(section.get_full_title()))
             sections += list_children(section)
-        return section
+        return sections
                 
 
     def __unicode__(self):

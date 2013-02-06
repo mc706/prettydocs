@@ -19,7 +19,7 @@
  <tbody>
     {% for document in documents %}
         <tr>
-            <td>{{ document.title }}</td>
+            <td onclick="window.location.href='{% url document.views.edit_document document.id %}'">{{ document.title }}</td>
         </tr>
     {% endfor %}
  </tbody>
