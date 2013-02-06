@@ -21,15 +21,19 @@
         <div class=page-header>
             <h2>Editor Panel</h2>
         </div>
-            <ul class="nav nav-tabs nav-stacked">
+            <ul class="nav nav-tabs nav-stacked" style="margin:0 0 0 10px">
                 {% for section in document.sections.all %}
                     <li><a>{{ section.get_full_title }}</a></li>
-                    <ul class="nav nav-tabs nav-stacked" style="margin-left:10px">
+                    <ul class="nav nav-tabs nav-stacked" style="margin:0 0 0 10px">
                         {% for subsection in section.subsections.all %}
-                           <li><a>{{ subsection.get_full_title }}</a></li>     
+                           <li><a>{{ subsection.get_full_title }}</a></li>
+                            <ul class="nav nav-tabs nav-stacked" style="margin:0 0 0 10px">
+                            {% for supersub in subsection.subsections.all %}
+                                <li><a>{{ supersub.get_full_title }}</a></li>
+                            {% endfor %}
+                            </ul>
                         {% endfor %}
                     </ul>
-                    
                 {% endfor %}
                    <li><a data-type='new_section' onclick="$('#add_section_modal').modal()"><i class=icon-plus></i> Add Section </a></li>
                    <li><a data-type='new_content'  onclick="$('#add_content_modal').modal()"><i class=icon-plus></i> Add Content </a></li>
