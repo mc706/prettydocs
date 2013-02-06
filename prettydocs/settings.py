@@ -15,10 +15,10 @@ PROJECT_ROOT = dirname(dirname(__file__))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'prettydocs',                      # Or path to database file if using sqlite3.
-        'USER': 'django',                      # Not used with sqlite3.
-        'PASSWORD': 'Password1',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'NAME': 'mc706_jicuziyote',                      # Or path to database file if using sqlite3.
+        'USER': 'mc706_jicuziyote',                      # Not used with sqlite3.
+        'PASSWORD': 'ysVsSfevzmN2GmnKQCLdPo8SrcCpqiInUP5w92rh',                  # Not used with sqlite3.
+        'HOST': 'mysql0.db.koding.com',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -48,7 +48,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = PROJECT_ROOT + '/,media'
+MEDIA_ROOT = PROJECT_ROOT + '/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -59,11 +59,11 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = PROJECT_ROOT + '/static'
+STATIC_ROOT = '/User/mc706/Sites/mc706.koding.com/website/prettydocs/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = '/prettydocs/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (

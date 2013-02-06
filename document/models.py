@@ -145,7 +145,7 @@ class Document(models.Model):
         for section in self.sections:
             sections.append(section.get_full_title)
             sections += list_children(section)
-        return sections
+        return section
                 
 
     def __unicode__(self):
