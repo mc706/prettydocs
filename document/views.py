@@ -1,4 +1,4 @@
-import simplejson as json
+import json
 from django.shortcuts import *
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
