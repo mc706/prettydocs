@@ -2,10 +2,12 @@ import simplejson as json
 from django.shortcuts import *
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from document.models import Document, Section, Content
 from document.generator import generate_document
 from document.forms import DocumentForm, SectionForm, ContentForm
 
+@login_required
 def all_documents(request):
     documents = Document.objects.all()
 
@@ -15,7 +17,7 @@ def all_documents(request):
         'title':"All Documents",
     },RequestContext(request))
 
-
+@login_required
 def document(request, document_id):
     document = Document.objects.get(pk=document_id)
     doc_html = generate_document(document)
@@ -26,7 +28,7 @@ def document(request, document_id):
         'doc_html':doc_html,
     },RequestContext(request))
 
-
+@login_required
 def create_document(request):
     if request.method == "POST":
         form = DocumentForm(request.POST)
@@ -49,6 +51,7 @@ def create_document(request):
         'form':form,
     },RequestContext(request))
 
+@login_required
 @csrf_exempt
 def edit_document(request, document_id):
     document = Document.objects.get(pk=document_id)
