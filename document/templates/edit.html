@@ -63,7 +63,7 @@
 
 <div id=add_section_modal class="modal hide">
     <div class=modal-header>
-        <button type=button class=close data-dismiss=modal onclick="$('#add_section_modal').modal('ide);"><i class=icon-remove></i></button>
+        <button type=button class=close data-dismiss=modal onclick="$('#add_section_modal').modal('hide');"><i class=icon-remove></i></button>
         <h3>Add Section</h3>
     </div>
     <div class=modal-body>
@@ -89,7 +89,7 @@
 </div>
 <div id=add_content_modal class="modal hide">
     <div class=modal-header>
-        <button type=button class=close data-dismiss=modal onclick="$('#add_content_modal').modal('ide);"><i class=icon-remove></i></button>
+        <button type=button class=close data-dismiss=modal onclick="$('#add_content_modal').modal('hide');"><i class=icon-remove></i></button>
         <h3>Add Section</h3>
     </div>
     <div class=modal-body>
@@ -137,7 +137,8 @@ $('#m_content_type').change(function(){
         $('#extra_form').append("\
                 <div class=controls=row>\
                     <label>Add Items to List</label>\
-                <input type=text id=ul_new_item><a onclick=\"$('#sample_ul').append('<li>'+$('#ul_new_item').val()+'</li>');$('#ul_new_item').val('');\"> <i class=icon-plus></i></a>\
+                <input type=text id=ul_new_item><a onclick=\"$('#sample_ul').append('<li class=litem>'+$('#ul_new_item').val()+'</li>');$('#ul_new_item').val('');\"> <i class=icon-plus></i></a>\
+                <ul id=sample_ul>\
                 </ul>\
                 </div>\
         ");
@@ -145,7 +146,7 @@ $('#m_content_type').change(function(){
         $('#extra_form').append("\
                 <div class=controls=row>\
                     <label>Add Items to Ordered List</label>\
-                <input type=text id=li_new_item><a onclick=\"$('#sample_ol').append('<li>'+$('#li_new_item').val()+'</li>');$('#li_new_item').val('');\"> <i class=icon-plus></i></a>\
+                <input type=text id=li_new_item><a onclick=\"$('#sample_ol').append('<li class=litem>'+$('#li_new_item').val()+'</li>');$('#li_new_item').val('');\"> <i class=icon-plus></i></a>\
                 <ol id=sample_ol>\
                 </ol>\
                 </div>\
@@ -165,7 +166,7 @@ $('#m_content_type').change(function(){
         $('#extra_form').append("\
                 <div class=controls=row>\
                     <label>Write Raw HTML</label>\
-                <textarea id=p_text></textarea>\
+                <textarea id=raw_text></textarea>\
                 </div>\
         ");
     }
@@ -176,7 +177,48 @@ function submit_add_content(){
     var parent= cparent_type;
     var type = 'new_content';
     var content_type = $('#m_content_type').val();
+    var content = "";
+    if (content_type == 'ul'){
+        var items = [];
+        var list = $('#sample_ul').children('.litem');
+        list.each(function(){
+           var test = $(this).text()
+           items.push(test)
+        });
+        content = JSON.stringify(items);
+    } else if (content_type =='ol'){
+        var items = [];
+        var list = $('#sample_ol').children('.litem');
+        list.each(function(){
+            items.push($(this).text())
+        });
+        content = JSON.stringify(items);
+    } else if (content_type =='p'){
+        content = $('#p_text').val();
+    } else if (content_type == 'raw'){
+        content = $('#raw_text').val();
+    }
+    $.ajax({
+        type:'post',
+        url:'{% url document.views.edit_document document.id %}',
+        data:{
+            'parent_id':parent_id,
+            'parent':parent,
+            'type':type,
+            'content_type':content_type,
+            'content':content
+        },
+        success:function(){
 
+            document.getElementById('iframe').contentWindow.location.reload();
+            //clean up
+            $('#extra_from').empty();
+            $('#m_content_type').val(0);
+            $('#m_content_type').removeAttr('disabled');
+            $('#add_content_modal').modal('hide');
+
+        }
+    });
 }
 
 function submit_add_section() {
@@ -195,8 +237,7 @@ function submit_add_section() {
         success:function(){
             window.location.reload();
         }
-
-    })
+    });
 }
 </script>
 {% endblock script %}

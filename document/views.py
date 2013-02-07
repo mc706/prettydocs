@@ -1,3 +1,4 @@
+import simplejson as json
 from django.shortcuts import *
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -53,7 +54,7 @@ def edit_document(request, document_id):
     document = Document.objects.get(pk=document_id)
     if request.method == 'POST':
         post = request.POST
-
+        print post
         if post['type'] == 'new_section':
             if post['parent'] != 'none':
                 parent = Section.objects.get(pk=post['parent_id'])
@@ -92,13 +93,45 @@ def edit_document(request, document_id):
             elif post['parent'] == 'section':
                 parent = Section.objects.get(pk=post['parent_id'])
                 if post['content_type'] == 'ul':
-                    pass
+                    wrapper = parent.content.create(
+                        content_type='ul',
+                    )
+                    wrapper.save()
+                    items = json.loads(post['content'])
+                    for item in items:
+                        li = wrapper.children.create(
+                            content_type='li'
+                        )
+                        txt =li.children.create(
+                            content_type='txt',
+                            content=item
+                        )
                 elif post['content_type'] == 'ol':
-                    pass
+                    wrapper = parent.content.create(
+                        content_type='ol',
+                    )
+                    items = json.loads(post['content'])
+                    for item in items:
+                        li = wrapper.children.create(
+                            content_type='li'
+                        )
+                        txt = li.children.create(
+                            content_type='txt',
+                            content=item
+                        )
                 elif post['content_type'] == 'p':
-                    pass
+                    wrapper = parent.content.create(
+                        content_type='p',
+                    )
+                    txt = wrapper.children.create(
+                        content_type='txt',
+                        content=post['content']
+                    )
                 elif post['content_type'] == 'raw':
-                    pass
+                    raw = parent.content.create(
+                        content_type='txt',
+                        content=post['content']
+                    )
                 return HttpResponse(status=200)
     else:
         return render_to_response('edit.html',
