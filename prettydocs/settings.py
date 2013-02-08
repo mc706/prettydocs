@@ -107,7 +107,7 @@ ROOT_URLCONF = 'prettydocs.urls'
 WSGI_APPLICATION = 'prettydocs.wsgi.application'
 
 TEMPLATE_DIRS = (
-    PROJECT_ROOT + '/templates'
+    PROJECT_ROOT + '/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -122,9 +122,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'document',
+    'registration',
     'auth',
 )
 
+ACCOUNT_ACTIVATION_DAYS = 7
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
