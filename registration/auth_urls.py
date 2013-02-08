@@ -30,7 +30,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = patterns('',
                        url(r'^login/$',
-                           auth_views.login,
+                           'auth.views.login_wrapper',
                            {'template_name': 'registration/login.html'},
                            name='auth_login'),
                        url(r'^logout/$',
