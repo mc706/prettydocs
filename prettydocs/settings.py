@@ -15,10 +15,10 @@ PROJECT_ROOT = dirname(dirname(__file__))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'mc706_jicuziyote',                      # Or path to database file if using sqlite3.
-        'USER': 'mc706_jicuziyote',                      # Not used with sqlite3.
-        'PASSWORD': 'ysVsSfevzmN2GmnKQCLdPo8SrcCpqiInUP5w92rh',                  # Not used with sqlite3.
-        'HOST': 'mysql0.db.koding.com',                      # Set to empty string for localhost. Not used with sqlite3.
+        'NAME': 'prettydocs',                      # Or path to database file if using sqlite3.
+        'USER': 'django',                      # Not used with sqlite3.
+        'PASSWORD': 'Password1',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'document',
+    'auth',
 )
 
 # A sample logging configuration. The only tangible logging
