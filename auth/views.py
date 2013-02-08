@@ -1,9 +1,10 @@
 from django.contrib.auth.views import login
+from django.core.urlresolvers import reverse
 from django.shortcuts import *
 
 def login_wrapper(request, **kwargs):
     if request.user.is_authenticated():
-        return redirect('/')
+        return redirect(reverse('auth.views.home'))
     else:
         return login(request, **kwargs)
 
