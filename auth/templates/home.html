@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+
+<div class=hero-unit>
+    <h1>Welcome to PrettyDocs!!<br>
+        <small>The Pretty Documentation Generator</small>
+    </h1>
+</div>
+<div class=row-fluid>
+    <div class=span4>
+        <div class=page-header>
+            <h2>Generate Pretty Documents Easily</h2>
+        </div>
+        <p>
+            PrettyDocs will allow you to quickly add sections and content to build a well structured
+            document. It will also automatically create a table of contents and make your document
+            easily navigateable.
+            <br>
+            Because it is browser based, documents can be generated from any device running any
+            operating system. Changes to documents are instantaneous and you can access your
+            documents anywhere!
+        </p>
+    </div>
+    <div class=span4>
+        <div class=page-header>
+            <h2>Automated Version Control</h2>
+        </div>
+        <p>
+            PrettyDocs has Built in Version control. This way, when working with a team., you can
+            track the history of the document, see what changes where made, when they were made, and
+            who made the.
+            <br>
+            PrettyDocs also keeps a global document version number, in case you need to keep multiple
+            copies printed out.
+        </p>
+    </div>
+    <div class=span4>
+        <div class=page-header>
+            <h2>Sign Up Now For Free</h2>
+        </div>
+        <a href="/accounts/registration" class="btn btn-large">Sign Up!</a>
+        <p>
+            Registration for beta is free. Get instant access and immediately start using PrettyDocs
+            to generate your documentation.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

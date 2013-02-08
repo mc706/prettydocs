@@ -12,3 +12,7 @@ def profile(request):
     return render_to_response('registration/profile.html',
         {},
         context_instance=RequestContext(request))
+
+
+def home(request):
+    return render_to_response('home.html',{},RequestContext(request))

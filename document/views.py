@@ -9,7 +9,7 @@ from document.forms import DocumentForm, SectionForm, ContentForm
 
 @login_required
 def all_documents(request):
-    documents = Document.objects.all()
+    documents = Document.objects.filter(creator=request.user)
 
     return render_to_response('index.html',
     {

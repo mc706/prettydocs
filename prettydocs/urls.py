@@ -16,9 +16,11 @@ urlpatterns = patterns('',
     url(r'^passwd/change/$', 'django.contrib.auth.views.password_change'),
     url(r'^passwd/change/done/$', 'django.contrib.auth.views.password_change_done'),
     url(r'^accounts/profile/$', 'auth.views.profile'),
+    url(r'^accounts/login/$', 'auth.views.login_wrapper'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
     #apps
     url(r'^document/', include('document.urls')),
-    url(r'^$', include('document.urls')),
+    url(r'^$', 'auth.views.home'),
     #admin
     url(r'^admin/', include(admin.site.urls)),
 )
